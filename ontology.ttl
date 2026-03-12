@@ -1,0 +1,390 @@
+@prefix cgov: <https://w3id.org/cgov#> .
+@prefix dc1: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <https://schema.org/> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://w3id.org/cgov> a owl:Ontology ;
+    dc1:creator "Tinaye Mawocha" ;
+    dc1:date "2026"^^xsd:gYear ;
+    dc1:description "An ontology for representing the Cardano on-chain governance ecosystem, including DReps, stake pools, governance proposals, and voting events as defined in CIP-1694." ;
+    dc1:source <https://cips.cardano.org/cip/CIP-1694> ;
+    dc1:title "Cardano Governance Ontology" ;
+    owl:versionInfo "1.0" .
+
+cgov:Abstain a skos:Concept ;
+    skos:definition "A vote that counts toward quorum but expresses no directional preference." ;
+    skos:inScheme cgov:VoteOptionScheme ;
+    skos:prefLabel "Abstain" .
+
+cgov:AlwaysAbstain a cgov:DRep ;
+    rdfs:label "Always Abstain" ;
+    rdfs:comment "A predefined CIP-1694 DRep. Stake delegated here counts toward quorum but always registers as Abstain on every proposal. Used by holders who wish to participate in quorum without expressing a directional preference." ;
+    skos:note "Not a registered actor — a protocol-level constant defined in CIP-1694." ;
+    cgov:drepId "drep_always_abstain" .
+
+cgov:AlwaysNoConfidence a cgov:DRep ;
+    rdfs:label "Always No Confidence" ;
+    rdfs:comment "A predefined CIP-1694 DRep. Stake delegated here always votes No Confidence on every proposal. Used by holders who wish to signal permanent opposition to the current governance structure." ;
+    skos:note "Not a registered actor — a protocol-level constant defined in CIP-1694." ;
+    cgov:drepId "drep_always_no_confidence" .
+
+cgov:HardForkInitiation a skos:Concept ;
+    skos:definition "A proposal to initiate a hard fork of the Cardano protocol." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "Hard Fork Initiation" .
+
+cgov:InfoAction a skos:Concept ;
+    skos:definition "A non-binding informational governance action with no on-chain effect." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "Info Action" .
+
+cgov:NewCommittee a skos:Concept ;
+    skos:definition "A proposal to update the membership or threshold of the Constitutional Committee." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "New Committee" .
+
+cgov:NewConstitution a skos:Concept ;
+    skos:definition "A proposal to adopt a new or amended Cardano constitution." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "New Constitution" .
+
+cgov:No a skos:Concept ;
+    skos:definition "A vote against the proposal." ;
+    skos:inScheme cgov:VoteOptionScheme ;
+    skos:prefLabel "No" .
+
+cgov:NoConfidence a skos:Concept ;
+    skos:definition "A proposal expressing no confidence in the current Constitutional Committee." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "No Confidence" .
+
+cgov:ParameterChange a skos:Concept ;
+    skos:definition "A proposal to change one or more protocol parameters." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "Parameter Change" .
+
+cgov:TreasuryWithdrawal a skos:Concept ;
+    skos:definition "A proposal to withdraw funds from the Cardano treasury." ;
+    skos:inScheme cgov:ProposalTypeScheme ;
+    skos:prefLabel "Treasury Withdrawal" .
+
+cgov:Yes a skos:Concept ;
+    skos:definition "An affirmative vote in favour of the proposal." ;
+    skos:inScheme cgov:VoteOptionScheme ;
+    skos:prefLabel "Yes" .
+
+cgov:activeEpoch a owl:DatatypeProperty ;
+    rdfs:label "active epoch" ;
+    rdfs:comment "Epoch number in which this DRep was first registered." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:integer .
+
+cgov:activeInEpoch a owl:ObjectProperty ;
+    rdfs:label "active in epoch" ;
+    rdfs:comment "Relates a StakePool to an Epoch in which it produced blocks and had active delegated stake." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range cgov:Epoch .
+
+cgov:castVote a owl:ObjectProperty ;
+    rdfs:label "cast vote" ;
+    rdfs:comment "Relates a voter (DRep or SPO) to a Vote instance they submitted on-chain." ;
+    rdfs:domain cgov:DRepOrSPO ;
+    rdfs:range cgov:Vote .
+
+cgov:declaredPledgeLovelace a owl:DatatypeProperty ;
+    rdfs:label "declared pledge (Lovelace)" ;
+    rdfs:comment "ADA the operator pledged to keep delegated to their pool." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range xsd:integer .
+
+cgov:delegatedStakeLovelace a owl:DatatypeProperty ;
+    rdfs:label "delegated stake (Lovelace)" ;
+    rdfs:comment "ADA (Lovelaces) delegated by a stake address to a DRep or pool." ;
+    rdfs:domain cgov:StakeAddress ;
+    rdfs:range xsd:integer .
+
+cgov:delegatesStakeTo a owl:ObjectProperty ;
+    rdfs:label "delegates stake to" ;
+    rdfs:comment "Relates a stake address to the stake pool to which it has delegated its ADA for block production." ;
+    rdfs:domain cgov:StakeAddress ;
+    rdfs:range cgov:StakePool ;
+    owl:inverseOf cgov:hasStakeDelegatedFrom .
+
+cgov:delegatesVotingPowerTo a owl:ObjectProperty ;
+    rdfs:label "delegates voting power to" ;
+    rdfs:comment "Relates a stake address to the DRep to which it has delegated its voting power under CIP-1694." ;
+    rdfs:domain cgov:StakeAddress ;
+    rdfs:range cgov:DRep ;
+    owl:inverseOf cgov:hasVotingPowerDelegatedFrom .
+
+cgov:depositLovelace a owl:DatatypeProperty ;
+    rdfs:label "deposit (Lovelace)" ;
+    rdfs:comment "ADA deposit locked when this proposal was submitted." ;
+    rdfs:domain cgov:Proposal ;
+    rdfs:range xsd:integer .
+
+cgov:drepHex a owl:DatatypeProperty ;
+    rdfs:label "DRep hex" ;
+    rdfs:comment "Raw hexadecimal bytes of the DRep credential." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:string .
+
+cgov:drepId a owl:DatatypeProperty ;
+    rdfs:label "DRep ID" ;
+    rdfs:comment "Bech32-encoded DRep identifier (drep1-)." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:string .
+
+cgov:epochEndTime a owl:DatatypeProperty ;
+    rdfs:label "epoch end time" ;
+    rdfs:comment "UNIX timestamp of the end of this epoch." ;
+    rdfs:domain cgov:Epoch ;
+    rdfs:range xsd:integer .
+
+cgov:epochNumber a owl:DatatypeProperty ;
+    rdfs:label "epoch number" ;
+    rdfs:comment "Sequential integer identifier of this epoch." ;
+    rdfs:domain cgov:Epoch ;
+    rdfs:range xsd:integer .
+
+cgov:epochStartTime a owl:DatatypeProperty ;
+    rdfs:label "epoch start time" ;
+    rdfs:comment "UNIX timestamp of the start of this epoch." ;
+    rdfs:domain cgov:Epoch ;
+    rdfs:range xsd:integer .
+
+cgov:expiresAtEpoch a owl:ObjectProperty ;
+    rdfs:label "expires at epoch" ;
+    rdfs:comment "Relates a Proposal to the Epoch at which it expires if not ratified." ;
+    rdfs:domain cgov:Proposal ;
+    rdfs:range cgov:Epoch .
+
+cgov:fixedCostLovelace a owl:DatatypeProperty ;
+    rdfs:label "fixed cost (Lovelace)" ;
+    rdfs:comment "Pool's minimum fixed fee per epoch in Lovelaces." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range xsd:integer .
+
+cgov:hasProposalType a owl:ObjectProperty ;
+    rdfs:label "has proposal type" ;
+    rdfs:comment "Relates a Proposal to its governance action type from the ProposalTypeScheme." ;
+    rdfs:domain cgov:Proposal ;
+    rdfs:range skos:Concept .
+
+cgov:hasScript a owl:DatatypeProperty ;
+    rdfs:label "has script" ;
+    rdfs:comment "True if the DRep credential is a native or Plutus script rather than a key." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:boolean .
+
+cgov:hasVoteOption a owl:ObjectProperty ;
+    rdfs:label "has vote option" ;
+    rdfs:comment "Relates a Vote to its option: cgov:Yes, cgov:No, or cgov:Abstain." ;
+    rdfs:domain cgov:Vote ;
+    rdfs:range skos:Concept .
+
+cgov:isActive a owl:DatatypeProperty ;
+    rdfs:label "is active" ;
+    rdfs:comment "True if the DRep is currently active (not retired or expired)." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:boolean .
+
+cgov:isExpired a owl:DatatypeProperty ;
+    rdfs:label "is expired" ;
+    rdfs:comment "True if the DRep has been inactive for more than drep_activity epochs." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:boolean .
+
+cgov:isRetired a owl:DatatypeProperty ;
+    rdfs:label "is retired" ;
+    rdfs:comment "True if the DRep has explicitly deregistered." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:boolean .
+
+cgov:lastActiveEpoch a owl:DatatypeProperty ;
+    rdfs:label "last active epoch" ;
+    rdfs:comment "Epoch of the DRep's most recent on-chain action." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:integer .
+
+cgov:liveStakeLovelace a owl:DatatypeProperty ;
+    rdfs:label "live stake (Lovelace)" ;
+    rdfs:comment "Current live delegated stake to the pool in Lovelaces." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range xsd:integer .
+
+cgov:marginFee a owl:DatatypeProperty ;
+    rdfs:label "margin fee" ;
+    rdfs:comment "Variable fee as a decimal fraction (e.g. 0.02 = 2%)." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range xsd:decimal .
+
+cgov:metadataAnchorHash a owl:DatatypeProperty ;
+    rdfs:label "metadata anchor hash" ;
+    rdfs:comment "Hash of the off-chain metadata document for integrity verification." ;
+    rdfs:domain cgov:ProposalOrDRep ;
+    rdfs:range xsd:string .
+
+cgov:metadataAnchorUrl a owl:DatatypeProperty ;
+    rdfs:label "metadata anchor URL" ;
+    rdfs:comment "URL to off-chain metadata associated with this proposal or DRep." ;
+    rdfs:domain cgov:ProposalOrDRep ;
+    rdfs:range xsd:anyURI .
+
+cgov:poolId a owl:DatatypeProperty ;
+    rdfs:label "pool ID" ;
+    rdfs:comment "Bech32-encoded stake pool identifier (pool1-)." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range xsd:string .
+
+cgov:poolTicker a owl:DatatypeProperty ;
+    rdfs:label "pool ticker" ;
+    rdfs:comment "Short ticker symbol identifying the stake pool (e.g. IOHK)." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range xsd:string .
+
+cgov:proposalCertIndex a owl:DatatypeProperty ;
+    rdfs:label "proposal certificate index" ;
+    rdfs:comment "Index of the governance certificate within the proposal transaction." ;
+    rdfs:domain cgov:Proposal ;
+    rdfs:range xsd:integer .
+
+cgov:proposalTxHash a owl:DatatypeProperty ;
+    rdfs:label "proposal transaction hash" ;
+    rdfs:comment "Transaction hash in which this governance proposal was submitted." ;
+    rdfs:domain cgov:Proposal ;
+    rdfs:range xsd:string .
+
+cgov:retrievedAt a owl:DatatypeProperty ;
+    rdfs:label "retrieved at" ;
+    rdfs:comment "ISO 8601 timestamp at which this data was fetched from the Blockfrost API." ;
+    rdfs:domain cgov:GovernanceEntity ;
+    rdfs:range xsd:dateTime ;
+    rdfs:subPropertyOf prov:generatedAtTime .
+
+cgov:retrievedFromEndpoint a owl:DatatypeProperty ;
+    rdfs:label "retrieved from endpoint" ;
+    rdfs:comment "The Blockfrost REST API endpoint path from which this entity was retrieved. Supports provenance and reproducibility." ;
+    rdfs:domain cgov:GovernanceEntity ;
+    rdfs:range xsd:anyURI ;
+    rdfs:subPropertyOf prov:wasGeneratedBy .
+
+cgov:stakeAddress a owl:DatatypeProperty ;
+    rdfs:label "stake address" ;
+    rdfs:comment "Bech32-encoded stake address (stake1-)." ;
+    rdfs:domain cgov:StakeAddress ;
+    rdfs:range xsd:string .
+
+cgov:submittedInEpoch a owl:ObjectProperty ;
+    rdfs:label "submitted in epoch" ;
+    rdfs:comment "Relates a Proposal or Vote to the Epoch in which it was submitted to the chain." ;
+    rdfs:domain cgov:ProposalOrVote ;
+    rdfs:range cgov:Epoch .
+
+cgov:totalActiveStakeLovelace a owl:DatatypeProperty ;
+    rdfs:label "total active stake (Lovelace)" ;
+    rdfs:comment "Total active stake across all pools during this epoch." ;
+    rdfs:domain cgov:Epoch ;
+    rdfs:range xsd:integer .
+
+cgov:voteOnProposal a owl:ObjectProperty ;
+    rdfs:label "vote on proposal" ;
+    rdfs:comment "Relates a Vote to the Proposal it was cast on." ;
+    rdfs:domain cgov:Vote ;
+    rdfs:range cgov:Proposal .
+
+cgov:voteTxHash a owl:DatatypeProperty ;
+    rdfs:label "vote transaction hash" ;
+    rdfs:comment "Transaction hash of the transaction in which this vote was cast." ;
+    rdfs:domain cgov:Vote ;
+    rdfs:range xsd:string .
+
+cgov:voterRole a owl:DatatypeProperty ;
+    rdfs:label "voter role" ;
+    rdfs:comment "Governance role of the voter: 'drep', 'spo', or 'constitutional_committee'." ;
+    rdfs:domain cgov:Vote ;
+    rdfs:range xsd:string .
+
+cgov:votingPowerLovelace a owl:DatatypeProperty ;
+    rdfs:label "voting power (Lovelace)" ;
+    rdfs:comment "Total voting power of a DRep in Lovelaces." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range xsd:integer .
+
+cgov:DRepOrSPO a owl:Class ;
+    rdfs:label "DRep or SPO" ;
+    rdfs:comment "A voter that is either a Delegated Representative or a Stake Pool Operator." ;
+    owl:unionOf ( cgov:DRep cgov:StakePool ) .
+
+cgov:ProposalOrVote a owl:Class ;
+    rdfs:label "Proposal or Vote" ;
+    rdfs:comment "An on-chain governance action that is either a Proposal submission or a Vote cast." ;
+    owl:unionOf ( cgov:Proposal cgov:Vote ) .
+
+cgov:hasStakeDelegatedFrom a owl:ObjectProperty ;
+    rdfs:label "has stake delegated from" ;
+    rdfs:comment "Inverse of delegatesStakeTo. Relates a stake pool to its delegators." ;
+    rdfs:domain cgov:StakePool ;
+    rdfs:range cgov:StakeAddress .
+
+cgov:hasVotingPowerDelegatedFrom a owl:ObjectProperty ;
+    rdfs:label "has voting power delegated from" ;
+    rdfs:comment "Inverse of delegatesVotingPowerTo. Relates a DRep to the stake addresses that delegate to it." ;
+    rdfs:domain cgov:DRep ;
+    rdfs:range cgov:StakeAddress .
+
+cgov:GovernanceEntity a owl:Class ;
+    rdfs:label "Governance Entity" ;
+    rdfs:comment "Any first-class entity in the Cardano governance knowledge graph: DRep, StakePool, StakeAddress, Proposal, Vote, or Epoch." ;
+    owl:unionOf ( cgov:DRep cgov:StakePool cgov:StakeAddress cgov:Proposal cgov:Vote cgov:Epoch ) .
+
+cgov:ProposalOrDRep a owl:Class ;
+    rdfs:label "Proposal or DRep" ;
+    rdfs:comment "An entity that carries an off-chain metadata anchor: either a Governance Proposal or a Delegated Representative." ;
+    owl:unionOf ( cgov:Proposal cgov:DRep ) .
+
+cgov:VoteOptionScheme a skos:ConceptScheme ;
+    dc1:title "CIP-1694 Vote Options" .
+
+cgov:StakeAddress a owl:Class ;
+    rdfs:label "Stake Address" ;
+    rdfs:comment "A Bech32-encoded Cardano stake address representing an ADA holder. A stake address simultaneously delegates stake (to a pool) and voting power (to a DRep)." ;
+    rdfs:subClassOf schema:Thing .
+
+cgov:Vote a owl:Class ;
+    rdfs:label "Vote" ;
+    rdfs:comment "A single on-chain vote cast by a DRep, SPO, or Constitutional Committee member on a specific governance proposal. The vote option is one of: Yes, No, or Abstain." ;
+    rdfs:seeAlso cgov:VoteOptionScheme ;
+    rdfs:subClassOf schema:Action .
+
+cgov:Epoch a owl:Class ;
+    rdfs:label "Epoch" ;
+    rdfs:comment "A discrete time period on the Cardano blockchain, approximately 5 days in length. Epochs define the temporal scope of stake snapshots, reward distributions, and governance state." ;
+    rdfs:subClassOf schema:Event .
+
+cgov:ProposalTypeScheme a skos:ConceptScheme ;
+    dc1:title "Cardano CIP-1694 Governance Action Types" .
+
+cgov:Proposal a owl:Class ;
+    rdfs:label "Governance Proposal" ;
+    rdfs:comment "An on-chain governance action submitted for ratification by DReps, SPOs, and the Constitutional Committee. Types include ParameterChange, TreasuryWithdrawal, HardForkInitiation, NewConstitution, NewCommittee, InfoAction, and NoConfidence." ;
+    rdfs:seeAlso cgov:ProposalTypeScheme ;
+    rdfs:subClassOf schema:Action ;
+    owl:equivalentClass prov:Activity .
+
+cgov:StakePool a owl:Class ;
+    rdfs:label "Stake Pool" ;
+    rdfs:comment "A Cardano block-producing node operated by a stake pool operator (SPO). SPOs hold institutional voting power in the CIP-1694 governance framework." ;
+    rdfs:subClassOf schema:Organization .
+
+cgov:DRep a owl:Class ;
+    rdfs:label "Delegated Representative" ;
+    rdfs:comment "An on-chain actor registered under CIP-1694 to receive delegated voting power from ADA holders and cast votes on governance proposals on their behalf." ;
+    rdfs:subClassOf schema:Person ;
+    skos:exactMatch <https://cips.cardano.org/cip/CIP-1694#drep> .
+
