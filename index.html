@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cardano Governance Knowledge Graph</title>
+  <link rel="alternate" type="text/turtle"
+        href="https://github.com/tmawocha/CardanoKB/releases/download/v1/dataset_metadata.ttl"
+        title="DCAT/VoID dataset metadata (Turtle)">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Dataset",
+    "name": "Cardano Governance Knowledge Graph",
+    "alternateName": "CardanoKB",
+    "description": "A structured RDF knowledge graph of Cardano's CIP-1694 on-chain governance ecosystem (Conway era). Contains 1,590,142 triples covering 1,593 DReps, 91 governance proposals, 21,923 votes, 100 stake pools, and 193,072 stake addresses across 20 epochs (598-617). Enables semantic reasoning about governance health, voting power distribution, and actor relationships.",
+    "url": "https://tmawocha.github.io/CardanoKB/",
+    "identifier": "d3c31332-dde0-4286-b387-734e7f4daa93",
+    "version": "v1",
+    "creator": {
+      "@type": "Person",
+      "name": "Tinaye Mawocha",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Maastricht University, Institute of Data Science"
+      }
+    },
+    "dateCreated": "2026-03-02",
+    "datePublished": "2026-03-12",
+    "dateModified": "2026-03-12",
+    "license": "https://opensource.org/licenses/MIT",
+    "keywords": [
+      "Cardano",
+      "blockchain governance",
+      "CIP-1694",
+      "knowledge graph",
+      "RDF",
+      "SPARQL",
+      "DRep",
+      "Conway era",
+      "liquid democracy",
+      "voting power",
+      "token-weighted governance"
+    ],
+    "isAccessibleForFree": true,
+    "citation": "https://cips.cardano.org/cip/CIP-1694",
+    "distribution": [
+      {
+        "@type": "DataDownload",
+        "name": "Cardano Governance Knowledge Graph — Turtle",
+        "description": "Main knowledge graph containing 1,590,142 RDF triples serialised in Turtle format.",
+        "encodingFormat": "text/turtle",
+        "contentUrl": "https://github.com/tmawocha/CardanoKB/releases/download/v1/governance_kg.ttl"
+      },
+      {
+        "@type": "DataDownload",
+        "name": "Cardano Governance Ontology — Turtle",
+        "description": "OWL ontology defining the cgov: namespace with 6 core classes, 11 object properties, and approximately 30 datatype properties.",
+        "encodingFormat": "text/turtle",
+        "contentUrl": "https://github.com/tmawocha/CardanoKB/releases/download/v1/ontology.ttl"
+      }
+    ]
+  }
+  </script>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 0 24px;
+      color: #1a1a1a;
+      line-height: 1.6;
+    }
+    h1 { font-size: 2rem; margin-bottom: 0.25rem; }
+    h2 { font-size: 1.2rem; margin-top: 2rem; color: #333; }
+    .subtitle { color: #555; margin-top: 0; margin-bottom: 2rem; }
+    table { border-collapse: collapse; width: 100%; margin: 1rem 0; }
+    th, td { text-align: left; padding: 8px 12px; border: 1px solid #ddd; }
+    th { background: #f5f5f5; }
+    a { color: #0066cc; }
+    .badge {
+      display: inline-block;
+      background: #0066cc;
+      color: white;
+      padding: 6px 14px;
+      border-radius: 4px;
+      text-decoration: none;
+      margin-right: 8px;
+      margin-top: 8px;
+      font-size: 0.9rem;
+    }
+    .badge:hover { background: #0052a3; }
+    footer { margin-top: 4rem; color: #888; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+
+  <h1>Cardano Governance Knowledge Graph</h1>
+  <p class="subtitle">
+    KEN4256 Individual Project &mdash; Institute of Data Science, Maastricht University<br>
+    Tinaye Mawocha &mdash; March 2026
+  </p>
+
+  <a class="badge" href="https://github.com/tmawocha/CardanoKB/releases/tag/v1">
+    ⬇ Download Dataset (v1)
+  </a>
+  <a class="badge" href="https://github.com/tmawocha/CardanoKB">
+    GitHub Repository
+  </a>
+
+  <h2>About</h2>
+  <p>
+    This project builds the first structured RDF knowledge graph for Cardano's
+    <a href="https://cips.cardano.org/cip/CIP-1694">CIP-1694</a> on-chain governance
+    ecosystem (Conway era). Governance data is publicly available on-chain but fragmented
+    across many API endpoints. This knowledge graph unifies it into a queryable structure
+    that supports semantic reasoning about governance health, voting power distribution,
+    and actor relationships.
+  </p>
+
+  <h2>Dataset at a Glance</h2>
+  <table>
+    <tr><th>Metric</th><th>Value</th></tr>
+    <tr><td>Total RDF triples</td><td>1,590,142</td></tr>
+    <tr><td>Epochs covered</td><td>598–617 (20 epochs, ~100 days)</td></tr>
+    <tr><td>Stake pools</td><td>100</td></tr>
+    <tr><td>DReps</td><td>1,593</td></tr>
+    <tr><td>Stake addresses</td><td>193,072</td></tr>
+    <tr><td>Governance proposals</td><td>91</td></tr>
+    <tr><td>Votes</td><td>21,923</td></tr>
+    <tr><td>Serialisation format</td><td>Turtle (text/turtle)</td></tr>
+    <tr><td>Ontology namespace</td><td>https://w3id.org/cgov#</td></tr>
+  </table>
+
+  <h2>Key Findings</h2>
+  <ul>
+    <li><strong>~26.8% of active stake</strong> is delegated to AlwaysAbstain (5.71 billion ADA), likely driven by custodial platforms delegating on behalf of users.</li>
+    <li><strong>54.5% of registered DReps</strong> have never cast a single vote, revealing a significant participation gap.</li>
+    <li><strong>Multiple proposals were rejected</strong> with strong No majorities, demonstrating substantive governance scrutiny.</li>
+    <li><strong>Whale delegation is measurable</strong> — one DRep accumulated 292 million ADA from just 90 delegators.</li>
+  </ul>
+
+  <h2>Downloads</h2>
+  <table>
+    <tr><th>File</th><th>Description</th><th>Format</th></tr>
+    <tr>
+      <td><a href="https://github.com/tmawocha/CardanoKB/releases/download/v1/governance_kg.ttl">governance_kg.ttl</a></td>
+      <td>Main knowledge graph (1,590,142 triples)</td>
+      <td>text/turtle</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tmawocha/CardanoKB/releases/download/v1/ontology.ttl">ontology.ttl</a></td>
+      <td>OWL ontology (cgov: namespace)</td>
+      <td>text/turtle</td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tmawocha/CardanoKB/releases/download/v1/dataset_metadata.ttl">dataset_metadata.ttl</a></td>
+      <td>DCAT/VoID catalogue record (machine-readable metadata)</td>
+      <td>text/turtle</td>
+    </tr>
+  </table>
+
+  <h2>Citation</h2>
+  <pre style="background:#f5f5f5;padding:12px;border-radius:4px;font-size:0.85rem;">Mawocha, T. (2026). Cardano Governance Knowledge Graph.
+KEN4256 Individual Project, Institute of Data Science, Maastricht University.
+https://tmawocha.github.io/CardanoKB/</pre>
+
+  <footer>
+    &copy; 2026 Tinaye Mawocha &mdash; Released under the
+    <a href="https://opensource.org/licenses/MIT">MIT License</a>
+  </footer>
+
+</body>
+</html>
