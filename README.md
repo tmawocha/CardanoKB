@@ -8,9 +8,9 @@ A structured, queryable RDF knowledge graph of Cardano's on-chain governance eco
 
 Cardano is the first major blockchain to deploy a formally specified liquid democracy framework at the protocol layer. Under CIP-1694, ADA holders delegate their voting power to Delegated Representatives (DReps), who vote on governance proposals ranging from treasury withdrawals to constitutional amendments and hard forks.
 
-This data exists entirely on-chain — but it is fragmented across many API endpoints and object types with no unified, queryable structure. As a result, questions about governance health, voting power concentration, and participation quality require laborious endpoint-by-endpoint analysis.
+This data exists entirely on-chain, but it is fragmented across many API endpoints and object types with no unified, queryable structure. As a result, questions about governance health, voting power concentration, and participation quality require laborious endpoint-by-endpoint analysis.
 
-This project addresses that gap. By modelling the Cardano governance ecosystem in RDF and exposing it via SPARQL, it becomes possible to ask relational questions that are impossible in flat data systems — such as which stake addresses delegate to both a pool *and* a DRep, which DReps hold disproportionate voting power relative to their delegator count, and which proposals were rejected and why.
+This project addresses that gap. By modelling the Cardano governance ecosystem in RDF and exposing it via SPARQL, it becomes possible to ask relational questions that are impossible in flat data systems; such as which stake addresses delegate to both a pool *and* a DRep, which DReps hold disproportionate voting power relative to their delegator count, and which proposals were rejected and why.
 
 ---
 
@@ -212,8 +212,8 @@ The full set of 8 queries with results is in `sparql_queries.ipynb` and `query_r
 
 - **AlwaysAbstain controls ~26.8% of active stake** (5.71 billion ADA across 106,400 delegators), most likely driven by custodial platforms delegating on behalf of users to satisfy CIP-1694's reward withdrawal requirements.
 - **54.5% of registered DReps have never voted**, revealing a significant gap between formal registration and active governance participation.
-- **The governance system functions as a check** — multiple proposals including treasury withdrawals and info actions were rejected with strong No majorities, demonstrating substantive DRep scrutiny.
-- **Whale delegation is measurable** — one DRep accumulated 292 million ADA from just 90 delegators (~3.25M ADA per delegator on average).
+- **The governance system functions as a check** - multiple proposals including treasury withdrawals and info actions were rejected with strong No majorities, demonstrating substantive DRep scrutiny.
+- **Whale delegation is measurable** - one DRep accumulated 292 million ADA from just 90 delegators (~3.25M ADA per delegator on average).
 
 ---
 
@@ -235,11 +235,11 @@ If you use this dataset or ontology, please cite:
 ```
 Mawocha, T. (2026). A Knowledge Graph of Cardano On-Chain Governance.
 KEN4256 Individual Project, Institute of Data Science, Maastricht University.
-https://github.com/[yourusername]/cardanokb
+https://github.com/tmawocha/cardanokb
 ```
 
 ---
 
 ## License
 
-MIT License — see `LICENSE` for details.
+MIT License - see `LICENSE` for details.
