@@ -1,0 +1,87 @@
+@prefix dcat:  <http://www.w3.org/ns/dcat#> .
+@prefix dct:   <http://purl.org/dc/terms/> .
+@prefix void:  <http://rdfs.org/ns/void#> .
+@prefix prov:  <http://www.w3.org/ns/prov#> .
+@prefix cito:  <http://purl.org/spar/cito/> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+@prefix cgov:  <https://w3id.org/cgov#> .
+
+cgov:dataset
+    a dcat:Dataset ,
+      void:Dataset ;
+
+    dct:identifier "d3c31332-dde0-4286-b387-734e7f4daa93" ;
+
+    dct:title "Cardano Governance Knowledge Graph"@en ;
+    dct:alternative "CardanoKB"@en ;
+
+    dct:description "A structured RDF knowledge graph of Cardano's CIP-1694 on-chain governance ecosystem (Conway era). Contains 1,590,142 triples covering 1,593 DReps, 91 governance proposals, 21,923 votes, 100 stake pools, and 193,072 stake addresses across 20 epochs (598-617). Enables semantic reasoning about governance health, voting power distribution, and actor relationships."@en ;
+
+    dct:created  "2026-03-02"^^xsd:date ;
+    dct:issued   "2026-03-12"^^xsd:date ;
+    dct:modified "2026-03-12"^^xsd:date ;
+
+    dcat:version "v1" ;
+    dcat:acronym "CGKG" ;
+
+    dct:creator [
+        a foaf:Person ;
+        foaf:name "Tinaye Mawocha" ;
+        foaf:organization "Maastricht University, Institute of Data Science"
+    ] ;
+
+    dcat:keyword
+        "Cardano" ,
+        "Blockchain" ,
+        "Governance" ,
+        "Knowledge Graph" ,
+        "RDF" ,
+        "SPARQL" ,
+        "CIP-1694" ,
+        "DRep" ,
+        "Conway era" ,
+        "Liquid democracy" ,
+        "Voting Power" ,
+        "Token-weighted governance" ;
+
+    dct:language "en" ;
+
+    dct:license <https://opensource.org/licenses/MIT> ;
+
+    void:vocabulary <https://schema.org/> ;
+    void:vocabulary <http://www.w3.org/ns/prov#> ;
+    void:vocabulary <http://www.w3.org/2004/02/skos/core#> ;
+    void:vocabulary <http://www.w3.org/2002/07/owl#> ;
+    void:vocabulary <http://purl.org/dc/terms/> ;
+
+    void:triples 1590142 ;
+    void:entities 1593 ;
+
+    dcat:landingPage <https://tmawocha.github.io/CardanoKB/> ;
+
+    cito:citesAsAuthority <https://cips.cardano.org/cip/CIP-1694> ;
+
+    dcat:distribution cgov:distribution-kg ,
+                      cgov:distribution-ontology .
+
+cgov:distribution-kg
+    a dcat:Distribution ;
+
+    dct:title "Cardano Governance Knowledge Graph — Turtle"@en ;
+    dct:description "Main knowledge graph containing 1,590,142 RDF triples serialised in Turtle format."@en ;
+
+    dcat:mediaType "text/turtle" ;
+    dcat:downloadURL <https://github.com/tmawocha/CardanoKB/releases/download/v1/governance_kg.ttl> ;
+    dcat:accessURL   <https://github.com/tmawocha/CardanoKB/releases/tag/v1> .
+
+cgov:distribution-ontology
+    a dcat:Distribution ;
+
+    dct:title "Cardano Governance Ontology — Turtle"@en ;
+    dct:description "OWL ontology defining the cgov: namespace with 6 core classes, 11 object properties, and ~30 datatype properties."@en ;
+
+    dcat:mediaType "text/turtle" ;
+    dcat:downloadURL <https://github.com/tmawocha/CardanoKB/releases/download/v1/ontology.ttl> ;
+    dcat:accessURL   <https://github.com/tmawocha/CardanoKB/releases/tag/v1> .
